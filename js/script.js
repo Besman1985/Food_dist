@@ -81,7 +81,7 @@ window.addEventListener("DOMContentLoaded", () => {
             hours = timer.querySelector("#hours"),
             minutes = timer.querySelector("#minutes"),
             seconds = timer.querySelector("#seconds");
-            timeInterval = setInterval(updateClock, 1000);
+        timeInterval = setInterval(updateClock, 1000);
         updateClock();
         // функция обновлкния времени
         function updateClock() {
@@ -105,82 +105,116 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
+    // Создание конструктора карточек
+
+    class Card {
+        constructor(src, title, descr, price, currency, ...clases) {
+            this.src = src
+            this.title = title
+            this.descr = descr
+            this.price = price
+            this.currency = currency
+            this.clases = clases
+        }
+        pushCard(celector) {
+            const wrapper = document.querySelector(celector);
+            const div = document.createElement("div");
+
+            if (this.clases.length === 0) {
+                this.clases = "menu__item";
+                div.classList.add(this.clases);
+                
+            } else {
+                this.clases.forEach((clases) => {
+                    div.classList.add(clases);
+                });
+            };
+            div.innerHTML = `
+                <div>
+                    <img src="${this.src}" alt="vegy">
+                    <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.descr}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> ${this.currency}/день</div>
+                    </div>
+                </div>`;
+            wrapper.append(div);
+        }
+
+    };
+
+
+    new Card(
+        "img/tabs/vegy.jpg",
+        "Меню 'Фитнес'",
+        "Меню 'Фитнес' - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
+        5000,
+        "руб",
+        "menu__item"
+    ).pushCard(".menu .container");
+
+
+    new Card("img/tabs/elite.jpg",
+        "Меню “Премиум”",
+        "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+        5250,
+        "руб",
+        "menu__item"
+    ).pushCard(".menu .container");
+
+
+    new Card('img/tabs/post.jpg',
+        'Меню "Постное"',
+        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+        4330,
+        'руб',
+        "menu__item"
+    ).pushCard(".menu .container");
+
+
+    // Модальное окно
+
+    const modal = document.querySelector(".modal");
+    const modalBtn = document.querySelectorAll(".btn");
+    const btnClose = document.querySelector(".modal__close");
 
 
 
-// // Получаем элементы, в которые будем выводить время
-// const daysEl = document.getElementById('days');
-// const hoursEl = document.getElementById('hours');
-// const minutesEl = document.getElementById('minutes');
-// const secondsEl = document.getElementById('seconds');
-// const messageEl = document.getElementById('message');
 
-// // Задаем дату, до которой ведем отсчёт.
-// // В данном случае - до 1 января следующего года.
-// const newYear = new Date(`January 1, ${new Date().getFullYear() + 1} 00:00:00`).getTime();
+    function showModal() {
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden";
+        clearTimeout(setTime);
 
-// function countdown() {
-//     // Получаем текущее время
-//     const now = new Date().getTime();
+    };
 
-//     // Вычисляем разницу между целевой и текущей датой
-//     const distance = newYear - now;
-
-//     // Если таймер истёк, выводим сообщение
-//     if (distance < 0) {
-//         clearInterval(timer);
-//         messageEl.textContent = 'С Новым годом!';
-//         // Скрываем контейнер с таймером
-//         document.querySelector('.countdown-container').style.display = 'none';
-//         return;
-//     }
-
-//     // Рассчитываем дни, часы, минуты и секунды
-//     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-//     // Добавляем ведущий ноль, если число меньше 10
-//     const formatTime = (time) => time < 10 ? `0${time}` : time;
-
-//     // Обновляем HTML-элементы
-//     daysEl.textContent = days;
-//     hoursEl.textContent = formatTime(hours);
-//     minutesEl.textContent = formatTime(minutes);
-//     secondsEl.textContent = formatTime(seconds);
-// }
-
-// // Запускаем функцию countdown() каждую секунду
-// const timer = setInterval(countdown, 1000);
-
-// // Вызываем функцию один раз сразу, чтобы избежать задержки в 1 секунду
-// countdown();
+    function closeModal() {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    };
 
 
+    modalBtn.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            showModal();
+        });
+
+    });
+
+    btnClose.addEventListener("click", () => {
+        closeModal();
+    });
+
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    let setTime = setTimeout(showModal, 10000);
 
 
 
