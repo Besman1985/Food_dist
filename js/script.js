@@ -218,7 +218,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
+ document.addEventListener("keydown", (e) => {
+        if (e.code === "Escape" && modal.style.display === "block") {
+            closeModal();
+        };
 
+    });
+
+
+    function modalShowScrol () {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+            showModal();
+            window.removeEventListener ("scroll",modalShowScrol);
+        };
+    }
+
+    window.addEventListener("scroll",modalShowScrol);
 
 
 
