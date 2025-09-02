@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
     showContent();
 
     // Timer
-    const deadLine = "2025-09-5";
+    const deadLine = "2025-11-5";
 
 
 
