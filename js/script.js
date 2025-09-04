@@ -123,7 +123,7 @@ window.addEventListener("DOMContentLoaded", () => {
             if (this.clases.length === 0) {
                 this.clases = "menu__item";
                 div.classList.add(this.clases);
-                
+
             } else {
                 this.clases.forEach((clases) => {
                     div.classList.add(clases);
@@ -145,33 +145,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
     };
 
+    function getData(url) {
+        fetch(`${url}`)
+            .then(data => data.json())
+            .then(obj => obj.forEach(({ img, title, descr, price }) => {
+                new Card(img, title, descr, price, 'руб', "menu__item").pushCard(".menu .container");
+            })
 
-    new Card(
-        "img/tabs/vegy.jpg",
-        "Меню 'Фитнес'",
-        "Меню 'Фитнес' - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
-        5000,
-        "руб",
-        "menu__item"
-    ).pushCard(".menu .container");
+            );
 
-
-    new Card("img/tabs/elite.jpg",
-        "Меню “Премиум”",
-        "В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-        5250,
-        "руб",
-        "menu__item"
-    ).pushCard(".menu .container");
+    }
 
 
-    new Card('img/tabs/post.jpg',
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        4330,
-        'руб',
-        "menu__item"
-    ).pushCard(".menu .container");
+    getData("http://localhost:3000/menu");
 
 
     // Модальное окно
@@ -218,7 +204,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
- document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", (e) => {
         if (e.code === "Escape" && modal.style.display === "block") {
             closeModal();
         };
@@ -226,31 +212,35 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    function modalShowScrol () {
+    function modalShowScrol() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
             showModal();
-            window.removeEventListener ("scroll",modalShowScrol);
+            window.removeEventListener("scroll", modalShowScrol);
         };
     }
 
-    window.addEventListener("scroll",modalShowScrol);
+    window.addEventListener("scroll", modalShowScrol);
+
+    const postDB = {
+        name: "mikle",
+        age: 40
+
+    };
+
+    const postData = async (url, data) => {
+
+        const res = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: data
+        });
+        return await res.json()
+    };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // postData("http://localhost:3000/requests",JSON.stringify(postDB));
 
 
 
